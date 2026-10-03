@@ -152,7 +152,40 @@ body.theme-glass header{background:rgba(16,14,28,0.7);}
 .article-meta{font-size:.76rem;color:var(--text-dim);display:flex;gap:10px;margin-top:2px;}
 .hidden-card{display:none;}
 
-/* ===== GUIA ===== */
+/* ====== SLOTS DE PUBLICIDADE (ADS Terra) ====== */
+.ad-slot{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;z-index:1;
+}
+.ad-slot::before{
+  content:"Publicidade";font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-dim);opacity:.5;margin-bottom:8px;display:block;
+}
+.ad-slot iframe,.ad-slot img,.ad-slot ins{max-width:100%;display:block;margin:0 auto;}
+
+/* Banner topo — acima da dobra */
+.ad-slot--top{
+  border-bottom:1px solid var(--border);background:var(--surface);
+  padding:16px 0;min-height:90px;
+}
+
+/* Native in-feed — ocupa a linha inteira da grelha de artigos */
+.ad-slot--infeed{
+  grid-column:1 / -1;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 20px;
+  margin:8px 0;
+  min-height:220px;
+  justify-content:flex-start;
+}
+body.theme-glass .ad-slot--infeed{backdrop-filter:blur(var(--glass-blur));}
+.ad-slot--infeed::before{content:"Conteúdo patrocinado";}
+
+#container-9d5aa6d87eb95764765015ebe59b5626{width:100%;max-width:100%;margin:0 auto;}
+
+/* ====== GUIA ====== */
 .guide-hero{padding:60px 0 30px;text-align:center;border-bottom:1px solid var(--border);}
 .guide-hero .eyebrow{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px;}
 .guide-hero h1{font-size:clamp(1.8rem,3.6vw,2.6rem);margin:0 auto 14px;max-width:20ch;}
@@ -204,8 +237,19 @@ footer{padding:50px 0 30px;border-top:1px solid var(--border);}
 .footer-grid{grid-template-columns:1fr 1fr;}
 .guide-table{font-size:.82rem;}
 .guide-table th,.guide-table td{padding:8px 10px;}
+.ad-slot--infeed{min-height:auto;}
 }
 </style>
+
+<!-- ============================================================
+     ADS TERRA · camada 1 (popunders globais + invoke nativo)
+     Colocados no <head> para dispararem o quanto antes.
+     Popunders: sem UI, disparam em qualquer interação.
+     invoke.js: apenas carrega a lógica; o container fica no body.
+     ============================================================ -->
+<script src="https://pl31646617.profitableratecpmnetwork.com/11/b5/41/11b54193fd2ad3793b5ab25b021398fa.js"></script>
+<script src="https://pl31646614.profitableratecpmnetwork.com/a6/5f/72/a65f72e76446f4a88ae9cbaf4e9b499e.js"></script>
+<script async="async" data-cfasync="false" src="https://pl31646615.profitableratecpmnetwork.com/9d5aa6d87eb95764765015ebe59b5626/invoke.js"></script>
 </head>
 <body class="accent-gold density-comfy" oncontextmenu="return false;">
 
@@ -302,6 +346,23 @@ footer{padding:50px 0 30px;border-top:1px solid var(--border);}
   </div>
 </header>
 
+<!-- ============================================================
+     ADS TERRA · camada 2 — Banner 468×60 (iframe)
+     Acima da dobra: máxima viewability, primeiro impacto.
+     ============================================================ -->
+<div class="ad-slot ad-slot--top">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '5d39faef78922c54e9ea48c39aa8ee63',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 468,
+      'params' : {}
+    };
+  </script>
+  <script src="https://www.highrevenueformat.com/5d39faef78922c54e9ea48c39aa8ee63/invoke.js"></script>
+</div>
+
 <!-- ====== TELA: INÍCIO ====== -->
 <main id="screen-inicio" class="screen active">
   <section class="hero">
@@ -343,7 +404,11 @@ footer{padding:50px 0 30px;border-top:1px solid var(--border);}
     </div>
   </section>
   <section class="articles">
-    <div class="wrap"><div class="article-grid" id="articleGridFull"></div></div>
+    <div class="wrap">
+      <div class="article-grid" id="articleGridFull">
+        <!-- O native ad é injetado aqui por JS (linha 4, largura total) -->
+      </div>
+    </div>
   </section>
 </main>
 
@@ -724,6 +789,9 @@ print(<span class="s">"Boa sorte, "</span> .. nome .. <span class="s">"! Pensei 
         <h4>Legal</h4>
         <span>Código fechado</span>
         <span>© 2026 Sénior</span>
+        <!-- ADS Terra · camada 4 — link direto -->
+        <a href="https://www.profitableratecpmnetwork.com/mw6fpipwjh?key=150249ae0e2f8c920b6010c118835b0e"
+           target="_blank" rel="noopener sponsored">Publicidade</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -732,6 +800,19 @@ print(<span class="s">"Boa sorte, "</span> .. nome .. <span class="s">"! Pensei 
     </div>
   </div>
 </footer>
+
+<!-- ============================================================
+     ADS TERRA · camada 3 — contentor do native (in-feed)
+     ────────────────────────────────────────────────────────────
+     Fica FORA da grelha no HTML, mas o JS abaixo injeta-o dentro
+     do #articleGrid (linha 4) para aparecer no meio dos artigos.
+     Isto maximiza viewability e CTR: parece editorial.
+     ============================================================ -->
+<template id="ad-infeed-template">
+  <div class="ad-slot ad-slot--infeed" data-ad-infeed>
+    <div id="container-9d5aa6d87eb95764765015ebe59b5626"></div>
+  </div>
+</template>
 
 <script>
 /* ============================================================
@@ -799,6 +880,30 @@ renderCats(document.getElementById('catRow'));
 renderCats(document.getElementById('catRowFull'));
 renderCards(gridHome);
 renderCards(gridFull);
+
+/* --- 3b. INJEÇÃO DO NATIVE IN-FEED ---
+   Coloca o slot native na 4ª posição (depois de 3 artigos).
+   Regra: se o filtro esconder artigos, o slot mantém-se,
+   porque é irmão na grelha (grid-column:1/-1). */
+function injectInfeedAd(){
+  var tpl = document.getElementById('ad-infeed-template');
+  if(!tpl) return;
+  var frag = tpl.content.cloneNode(true);
+  var slot = frag.querySelector('[data-ad-infeed]');
+
+  [gridHome, gridFull].forEach(function(grid){
+    if(!grid) return;
+    var clone = slot.cloneNode(true);
+    var cards = grid.querySelectorAll('.article-card');
+    /* posição: depois de 3 artigos (índice 3 = 4ª linha) */
+    if(cards.length >= 3){
+      grid.insertBefore(clone, cards[3]);
+    } else {
+      grid.appendChild(clone);
+    }
+  });
+}
+injectInfeedAd();
 
 /* --- 4. FILTRO --- */
 function filter(cat){
@@ -961,4 +1066,4 @@ if(SCREENS.indexOf(initial) !== -1) navigate(initial);
 })();
 </script>
 </body>
-</html>
+  </html> 
